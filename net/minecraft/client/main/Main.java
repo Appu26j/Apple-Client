@@ -22,21 +22,30 @@ public class Main
     {
     	if ((new File(System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "launcher_product_state.json")).exists())
     	{
-    		args = new String[]{};
-    		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-        	ArrayList<String> arguments = new ArrayList<>(runtimeMXBean.getInputArguments());
-
-    		for (int i = 0; i < arguments.size(); i++)
-        	{
-    			String argument = arguments.get(i);
-
-        		if (argument.contains("Djava.library.path"))
-        		{
-        			arguments.remove(arguments.indexOf(argument));
-        		}
-        	}
-
-        	args = concat(new String[]{"javaw"}, concat(concat(arguments.toArray(new String[0]), new String[]{"-Djava.library.path=\"" +  System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "natives\"", "-cp", "\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "libraries" + File.separator + "*\";\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "appleclient.jar" + "\"", "net.minecraft.client.main.Main"}), p_main_0_));
+    		args = concat(new String[]{"javaw"}, concat(concat(new String[] {"-Xmx2048M", "-Xms2048M", "-XX:+UseG1GC", "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"}, new String[]{"-Djava.library.path=\"" +  System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "natives\"", "-cp", "\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "libraries" + File.separator + "*\";\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "appleclient.jar" + "\"", "net.minecraft.client.main.Main"}), p_main_0_));
+    		boolean needsToRestart = true;
+    		
+    		for (String argument : args)
+    		{
+    			if (argument.contains("doNotRestart"))
+    			{
+    				needsToRestart = false;
+    			}
+    		}
+    		
+    		if (needsToRestart)
+    		{
+    			try
+    			{
+    				Runtime.getRuntime().exec(concat(args, new String[]{"doNotRestart"}));
+    				System.exit(0);
+    			}
+    			
+    			catch (Exception e)
+    			{
+    				System.exit(-1);
+    			}
+    		}
     	}
 
     	System.setProperty("java.net.preferIPv4Stack", "true");

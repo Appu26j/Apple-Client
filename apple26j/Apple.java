@@ -26,7 +26,7 @@ public enum Apple implements MinecraftInterface
 	private ModsManager modsManager;
 	private EventsManager eventsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.1;
+	public static final double CLIENT_VERSION = 1.2;
 	
 	public void init()
 	{
@@ -37,6 +37,7 @@ public enum Apple implements MinecraftInterface
 		this.dragGUI = new DragGUI();
 		this.eventBus.register(this);
 		this.extractSoundFiles();
+		this.extractUpdater();
 	}
 	
 	@Subscribe
@@ -121,6 +122,36 @@ public enum Apple implements MinecraftInterface
 		            int read;
 
 		            while ((read = inputStream2.read(bytes)) != -1)
+		            {
+		                bufferedOutputStream.write(bytes, 0, read);
+		            }
+		        }
+			}
+			
+			catch (Exception e)
+			{
+				;
+			}
+		}
+	}
+
+	public void extractUpdater()
+	{
+		File updater = new File("Updater.jar");
+		
+		if (!updater.exists())
+		{
+			try
+			{
+				updater.createNewFile();
+				InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation("updater/Updater.jar")).getInputStream();
+				
+				try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(Files.newOutputStream(updater.toPath())))
+		        {
+		            byte [] bytes = new byte[4096];
+		            int read;
+
+		            while ((read = inputStream.read(bytes)) != -1)
 		            {
 		                bufferedOutputStream.write(bytes, 0, read);
 		            }

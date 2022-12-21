@@ -667,8 +667,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
             if (this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 90, (this.width / 2) - 10, (this.height / 2) + 110))
             {
-            	UpdateUtil.update();
             	SoundUtil.playClickSound();
+            	UpdateUtil.update();
             }
         }
 
