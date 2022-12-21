@@ -26,7 +26,7 @@ public enum Apple implements MinecraftInterface
 	private ModsManager modsManager;
 	private EventsManager eventsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.2;
+	public static final double CLIENT_VERSION = 1.0;
 	
 	public void init()
 	{
@@ -134,17 +134,17 @@ public enum Apple implements MinecraftInterface
 			}
 		}
 	}
-
+	
 	public void extractUpdater()
 	{
-		File updater = new File("Updater.jar");
+		File updater = new File("updater.jar");
 		
 		if (!updater.exists())
 		{
 			try
 			{
 				updater.createNewFile();
-				InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation("updater/Updater.jar")).getInputStream();
+				InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation("updater/updater.jar")).getInputStream();
 				
 				try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(Files.newOutputStream(updater.toPath())))
 		        {

@@ -1,23 +1,27 @@
 package apple26j.utils;
 
-import java.io.File;
-
-import apple26j.interfaces.MinecraftInterface;
-import net.minecraft.client.main.Main;
-
-public class UpdateUtil implements MinecraftInterface
+public class UpdateUtil
 {
 	public static void update()
 	{
-		try
+		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
-			Runtime.getRuntime().exec(Main.concat(new String[]{"java", "-jar", "Updater.jar"}, Main.args));
-			mc.shutdown();
-		}
+			public void run()
+			{
+				ProcessBuilder processBuilder = new ProcessBuilder(new String[]{"java", "-jar", "updater.jar"});
+				
+				try
+				{
+					processBuilder.start();
+				}
+				
+				catch (Exception e)
+				{
+					;
+				}
+			}
+		});
 		
-		catch (Exception e)
-		{
-			System.exit(-1);
-		}
+		System.exit(0);
 	}
 }

@@ -16,36 +16,35 @@ import net.minecraft.util.Session;
 
 public class Main
 {
-	public static String[] args = new String[]{"null"};
-
     public static void main(String[] p_main_0_)
     {
-    	if ((new File(System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "launcher_product_state.json")).exists())
+    	String[] args = getArgs(p_main_0_);
+    	File argsTxt = new File(System.getProperty("java.io.tmpdir"), "args.txt");
+
+    	try
     	{
-    		args = concat(new String[]{"javaw"}, concat(concat(new String[] {"-Xmx2048M", "-Xms2048M", "-XX:+UseG1GC", "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"}, new String[]{"-Djava.library.path=\"" +  System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "natives\"", "-cp", "\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "libraries" + File.separator + "*\";\"" + System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "versions" + File.separator + "appleclient" + File.separator + "appleclient.jar" + "\"", "net.minecraft.client.main.Main"}), p_main_0_));
-    		boolean needsToRestart = true;
-    		
-    		for (String argument : args)
-    		{
-    			if (argument.contains("doNotRestart"))
-    			{
-    				needsToRestart = false;
-    			}
-    		}
-    		
-    		if (needsToRestart)
-    		{
-    			try
-    			{
-    				Runtime.getRuntime().exec(concat(args, new String[]{"doNotRestart"}));
-    				System.exit(0);
-    			}
-    			
-    			catch (Exception e)
-    			{
-    				System.exit(-1);
-    			}
-    		}
+    		if (!argsTxt.exists())
+        	{
+        		argsTxt.createNewFile();
+        	}
+    	}
+    	
+    	catch (Exception e)
+    	{
+    		;
+    	}
+
+    	try (FileWriter fileWriter = new FileWriter(argsTxt))
+    	{
+        	for (String line : args)
+        	{
+        		fileWriter.write(line + "\n");
+        	}
+    	}
+
+    	catch (Exception e)
+    	{
+    		;
     	}
 
     	System.setProperty("java.net.preferIPv4Stack", "true");
@@ -143,6 +142,43 @@ public class Main
     private static boolean isNullOrEmpty(String str)
     {
         return str != null && !str.isEmpty();
+    }
+
+    private static String[] getArgs(String[] programArgs)
+    {
+    	List<String> args = ManagementFactory.getRuntimeMXBean().getInputArguments();
+    	String javaHome = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+    	Runtime runtime = Runtime.getRuntime();
+    	String[] argumentsVM = new String[]{};
+    	
+    	for (String arg : args)
+    	{
+    		if (!arg.contains("-agentlib"))
+    		{
+    			argumentsVM = concat(argumentsVM, new String[]{arg});
+    		}
+    	}
+    	
+    	String[] finalCommand = concat(new String[]{"\"" + javaHome + "\""}, argumentsVM);
+    	String[] programCommands = System.getProperty("sun.java.command").split(" ");
+    	
+    	if (programCommands[0].endsWith(".jar"))
+    	{
+    		finalCommand = concat(finalCommand, new String[]{"-jar", "\"" + new File(programCommands[0]).getAbsolutePath() + "\""});
+    	}
+    	
+    	else
+    	{
+    		finalCommand = concat(finalCommand, new String[]{"-cp", "\"" + System.getProperty("java.class.path") + "\"", programCommands[0]});
+    	}
+    	
+    	for (int i = 1; i < programCommands.length; i++)
+    	{
+    		finalCommand = concat(finalCommand, new String[]{" " + programCommands[i]});
+    	}
+    	
+    	finalCommand = concat(finalCommand, programArgs);
+    	return finalCommand;
     }
 
     public static <T> T[] concat(T[] first, T[] second)

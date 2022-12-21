@@ -614,7 +614,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             this.modUpdateNotification.drawScreen(mouseX, mouseY, partialTicks);
         }
 
-        if (Main.args[0] != "null" && this.aBoolean && (Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) || Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.CHECKING)))
+        if (this.aBoolean && (Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) || Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.CHECKING)))
         {
         	ArrayList<String> arrayList = new ArrayList<>();
         	arrayList.add("");
@@ -657,7 +657,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        if (Main.args[0] != "null" && this.aBoolean && Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE))
+        if (this.aBoolean && Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE))
         {
             if (this.isInside(mouseX, mouseY, (this.width / 2) + 10, (this.height / 2) + 90, (this.width / 2) + 100, (this.height / 2) + 110))
             {
@@ -667,6 +667,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
             if (this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 90, (this.width / 2) - 10, (this.height / 2) + 110))
             {
+            	this.aBoolean = false;
             	SoundUtil.playClickSound();
             	UpdateUtil.update();
             }
