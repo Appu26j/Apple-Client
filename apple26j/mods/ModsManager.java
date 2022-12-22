@@ -3,7 +3,7 @@ package apple26j.mods;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import apple26j.mods.general.ToggleSprint;
+import apple26j.mods.general.*;
 import apple26j.mods.hud.Animations;
 
 public class ModsManager
@@ -14,6 +14,7 @@ public class ModsManager
 	{
 		this.mods.add(new ToggleSprint());
 		this.mods.add(new Animations());
+		this.mods.add(new FullBright());
 		this.enableDefaultMods();
 	}
 	
