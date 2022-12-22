@@ -23,12 +23,13 @@ public class Main
 
     	try
     	{
-    		if (!argsTxt.exists())
+    		if (argsTxt.exists())
         	{
+    			argsTxt.delete();
         		argsTxt.createNewFile();
         	}
     	}
-    	
+
     	catch (Exception e)
     	{
     		;
@@ -46,6 +47,8 @@ public class Main
     	{
     		;
     	}
+
+    	argsTxt.setReadOnly();
 
     	System.setProperty("java.net.preferIPv4Stack", "true");
         OptionParser optionparser = new OptionParser();
