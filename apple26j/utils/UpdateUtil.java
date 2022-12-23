@@ -1,6 +1,8 @@
 package apple26j.utils;
 
-public class UpdateUtil
+import apple26j.interfaces.MinecraftInterface;
+
+public class UpdateUtil implements MinecraftInterface
 {
 	public static void update()
 	{
@@ -22,6 +24,6 @@ public class UpdateUtil
 			}
 		});
 		
-		System.exit(0);
+		mc.shutdown();
 	}
 }

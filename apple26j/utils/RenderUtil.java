@@ -49,41 +49,10 @@ public class RenderUtil implements MinecraftInterface
 	
 	public static void drawOutline(float x, float y, float width, float height, int color)
 	{
-		if (x < width)
-        {
-            float f = x;
-            x = width;
-            width = f;
-        }
-		
-        if (y < height)
-        {
-            float g = y;
-            y = height;
-            height = g;
-        }
-        
-        float red = (float) (color >> 16 & 255) / 255;
-        float green = (float) (color >> 8 & 255) / 255;
-        float blue = (float) (color & 255) / 255;
-        float alpha = (float) (color >> 24 & 255) / 255;
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        float previousLineWidth = glGetFloat(GL_LINE_WIDTH);
-        glLineWidth(2);
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        GlStateManager.color(red, green, blue, alpha);
-        worldrenderer.begin(2, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(x, height, 0).endVertex();
-        worldrenderer.pos(width, height, 0).endVertex();
-        worldrenderer.pos(width, y, 0).endVertex();
-        worldrenderer.pos(x, y, 0).endVertex();
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        glLineWidth(previousLineWidth);
+		drawRect(x, y, width, y + 1, color);
+		drawRect(x, height - 1, width, height, color);
+		drawRect(x, y, x + 1, height, color);
+		drawRect(width - 1, y, width, height, color);
 	}
 	
 	public static void drawImage(ResourceLocation image, float x, float y, float width, float height)
