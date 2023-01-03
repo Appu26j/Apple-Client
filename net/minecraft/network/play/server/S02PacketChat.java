@@ -110,7 +110,6 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
 			}
     	};
 
-    	System.out.println(message2.getFormattedText());
         this.chatComponent = message2;
         this.type = typeIn;
     }
