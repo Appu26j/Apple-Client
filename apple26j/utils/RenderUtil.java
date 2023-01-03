@@ -100,4 +100,35 @@ public class RenderUtil implements MinecraftInterface
         tessellator.draw();
         GlStateManager.disableBlend();
 	}
+	
+	public static void drawCircle(float x, float y, float size, int color)
+	{
+        float red = (float) (color >> 16 & 255) / 255;
+        float green = (float) (color >> 8 & 255) / 255;
+        float blue = (float) (color & 255) / 255;
+        float alpha = (float) (color >> 24 & 255) / 255;
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GlStateManager.color(red, green, blue, alpha);
+        glBegin(GL_TRIANGLE_FAN);
+        double degree = Math.PI / 180;
+        
+        for (double d = 0; d < 360; d++)
+        {
+            glVertex2d(x + Math.sin(d * degree) * size, y + Math.cos(d * degree) * size);
+        }
+        
+        glEnd();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+	
+	private static void aMethod(WorldRenderer worldRenderer, float x, float y, float xRadius, float yRadius, int start, int end)
+	{
+        for (float f = start; f < end; f++)
+        {
+        	glVertex2d(x + Math.sin((f * Math.PI) / 180.0F) * xRadius, y + Math.cos((f * Math.PI) / 180.0F) * yRadius);
+        }
+    }
 }

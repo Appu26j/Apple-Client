@@ -23,7 +23,7 @@ public class ModGUI
 		
 		if (this.isInside(mouseX, mouseY, this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight()))
 		{
-			drawOutline(this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight(), new Color(255, 255, 255, (this.parent.getIndex1() * 2) > 255 ? 255 : (this.parent.getIndex1() * 2)).getRGB());
+			drawOutline(this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight(), new Color(255, 255, 255, (int) (this.parent.getIndex1() * 255)).getRGB());
 		}
     }
 	

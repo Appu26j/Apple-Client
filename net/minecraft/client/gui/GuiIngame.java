@@ -103,6 +103,8 @@ public class GuiIngame extends Gui
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
+        int widthDividedByTwo = i / 2;
+        int heightDividedByTwo = j / 2;
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
@@ -150,7 +152,7 @@ public class GuiIngame extends Gui
         {
             GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
             GlStateManager.enableAlpha();
-            this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
+            this.drawTexturedModalRect(widthDividedByTwo - 7, heightDividedByTwo - 7, 0, 0, 16, 16);
         }
 
         GlStateManager.enableAlpha();
@@ -187,7 +189,7 @@ public class GuiIngame extends Gui
         }
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        int k1 = i / 2 - 91;
+        int k1 = widthDividedByTwo - 91;
 
         if (this.mc.thePlayer.isRidingHorse())
         {
@@ -271,7 +273,7 @@ public class GuiIngame extends Gui
             if (i2 > 8)
             {
                 GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(i / 2), (float)(j / 2), 0.0F);
+                GlStateManager.translate((float)(widthDividedByTwo), (float)(heightDividedByTwo), 0.0F);
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                 GlStateManager.pushMatrix();
@@ -339,12 +341,14 @@ public class GuiIngame extends Gui
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)
     {
+        int widthDividedByTwo = sr.getScaledWidth() / 2;
+
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(widgetsTexPath);
             EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
-            int i = sr.getScaledWidth() / 2;
+            int i = widthDividedByTwo;
             float f = this.zLevel;
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
@@ -589,6 +593,8 @@ public class GuiIngame extends Gui
 
     private void renderPlayerStats(ScaledResolution scaledRes)
     {
+        int widthDividedByTwo = scaledRes.getScaledWidth() / 2;
+
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
             EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
@@ -621,8 +627,8 @@ public class GuiIngame extends Gui
             int k = foodstats.getFoodLevel();
             int l = foodstats.getPrevFoodLevel();
             IAttributeInstance iattributeinstance = entityplayer.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-            int i1 = scaledRes.getScaledWidth() / 2 - 91;
-            int j1 = scaledRes.getScaledWidth() / 2 + 91;
+            int i1 = widthDividedByTwo - 91;
+            int j1 = widthDividedByTwo + 91;
             int k1 = scaledRes.getScaledHeight() - 39;
             float f = (float)iattributeinstance.getAttributeValue();
             float f1 = entityplayer.getAbsorptionAmount();

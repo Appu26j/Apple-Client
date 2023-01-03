@@ -26,7 +26,7 @@ public enum Apple implements MinecraftInterface
 	private ModsManager modsManager;
 	private EventsManager eventsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.1;
+	public static final double CLIENT_VERSION = 1.2;
 	
 	public void init()
 	{
@@ -54,7 +54,7 @@ public enum Apple implements MinecraftInterface
 	{
 		if (!(mc.currentScreen instanceof DragGUI))
 		{
-			for (Mod mod : this.modsManager.getMods(Category.ALL).stream().filter(mod -> mod.hasGUI()).collect(Collectors.toCollection(ArrayList::new)))
+			for (Mod mod : this.modsManager.getMods(Category.ALL).stream().filter(mod -> mod.hasGUI() && mod.isEnabled()).collect(Collectors.toCollection(ArrayList::new)))
 			{
 				mod.onRender();
 			}

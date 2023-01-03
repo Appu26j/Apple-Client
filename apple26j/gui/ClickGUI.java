@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import apple26j.Apple;
+import apple26j.fontrenderer.FixedFontRenderer;
 import apple26j.mods.*;
 import apple26j.utils.*;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,7 +18,7 @@ public class ClickGUI extends GuiScreen
 	private ArrayList<ClickGUIsModGUI> clickGUIsModGUIs = new ArrayList<>();
 	private TimeUtil timeUtil = new TimeUtil();
 	private boolean isGuiClosing = false;
-	private int index1 = 0;
+	private float index1 = 0;
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -30,20 +31,22 @@ public class ClickGUI extends GuiScreen
 			{
 				if (this.index1 > 0)
 				{
-					this.index1 -= 16;
+					this.index1 -= 0.1F;
+					this.index1 = this.index1 < 0 ? 0 : this.index1;
 				}
 			}
 			
 			else
 			{
-				if (this.index1 < 128)
+				if (this.index1 < 1)
 				{
-					this.index1 += 16;
+					this.index1 += 0.1F;
+					this.index1 = this.index1 > 1 ? 1 : this.index1;
 				}
 			}
 		}
 		
-		RenderUtil.drawRect(0, 0, this.width, this.height, new Color(0, 0, 0, this.isGuiClosing ? this.index1 : 128).getRGB());
+		RenderUtil.drawRect(0, 0, this.width, this.height, new Color(0, 0, 0, this.isGuiClosing ? (int) (this.index1 * 75) : 75).getRGB());
 		
 		if (this.isGuiClosing && this.index1 == 0)
 		{
@@ -59,11 +62,13 @@ public class ClickGUI extends GuiScreen
 			}
 		}
 		
-		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 208, (this.height / 2) + 150, new Color(0, 0, 0, this.index1 / 2).getRGB());
-		RenderUtil.drawRect((this.width / 2) + 208, (this.height / 2) - 133, (this.width / 2) + 225, (this.height / 2) + 150, new Color(0, 0, 0, this.index1 / 2).getRGB());
-		RenderUtil.drawRect((this.width / 2) + 208, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 133, this.isInside(mouseX, mouseY, (this.width / 2) + 208, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 133) ? new Color(0, 0, 0, this.index1).getRGB() : new Color(0, 0, 0, this.index1 / 2).getRGB());
-		GlStateManager.color(1, 1, 1, this.index1 / 128F);
-		RenderUtil.drawImage(new ResourceLocation("icons/cross.png"), (this.width / 2) + 210.5F, (this.height / 2) - 147.5F, 12, 12);
+		GlStateManager.color(1, 1, 1, this.index1);
+		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 248, (this.height / 2) - 167, 496, 334);
+		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 205.5F, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 130, (this.width / 2) + 225, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 130, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawCircle((this.width / 2) - 215, (this.height / 2) - 142, 4, new Color(255, 90, 80, (int) (this.index1 * 255)).getRGB());
+		FixedFontRenderer.drawString("Click GUI", (this.width / 2) - (FixedFontRenderer.getStringWidth("Click GUI", 8) / 2), (this.height / 2) - 145, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		
 		for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
 		{
@@ -85,7 +90,7 @@ public class ClickGUI extends GuiScreen
     {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		if (this.isInside(mouseX, mouseY, (this.width / 2) + 208, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 133) && mouseButton == 0)
+		if (this.isInside(mouseX, mouseY, (this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) - 205, (this.height / 2) - 134) && mouseButton == 0)
 		{
 			SoundUtil.playClickSound();
 			this.keyTyped('0', 1);
@@ -123,7 +128,7 @@ public class ClickGUI extends GuiScreen
 		return mouseX > x && mouseX < width && mouseY > y && mouseY < height;
 	}
 	
-	public int getIndex1()
+	public float getIndex1()
 	{
 		return this.index1;
 	}

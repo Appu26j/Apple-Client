@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+
 import apple26j.Apple;
 import apple26j.fontrenderer.FixedFontRenderer;
 import apple26j.mods.Category;
@@ -26,15 +29,7 @@ public class DragGUI extends GuiScreen
 	private ArrayList<ModGUI> modGUIs = new ArrayList<>();
 	private ClickGUI clickGUI = new ClickGUI();
 	private TimeUtil timeUtil = new TimeUtil();
-	private int index1 = 0;
-	
-	public DragGUI()
-	{
-		for (Mod mod : Apple.CLIENT.getModsManager().getMods(Category.ALL).stream().filter(mod -> mod.hasGUI()).collect(Collectors.toCollection(ArrayList::new)))
-		{
-			this.modGUIs.add(new ModGUI(mod, this));
-		}
-	}
+	private float index1 = 0;
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -47,20 +42,22 @@ public class DragGUI extends GuiScreen
 			{
 				if (this.index1 > 0)
 				{
-					this.index1 -= 16;
+					this.index1 -= 0.1F;
+					this.index1 = this.index1 < 0 ? 0 : this.index1;
 				}
 			}
 			
 			else
 			{
-				if (this.index1 < 128)
+				if (this.index1 < 1)
 				{
-					this.index1 += 16;
+					this.index1 += 0.1F;
+					this.index1 = this.index1 > 1 ? 1 : this.index1;
 				}
 			}
 		}
 		
-		RenderUtil.drawRect(0, 0, this.width, this.height, new Color(0, 0, 0, this.isClickGUIOpening ? 128 : this.index1).getRGB());
+		RenderUtil.drawRect(0, 0, this.width, this.height, new Color(0, 0, 0, this.isClickGUIOpening ? 75 : (int) (this.index1 * 75)).getRGB());
 		
 		if ((this.isGuiClosing || this.isClickGUIOpening) && this.index1 == 0)
 		{
@@ -85,10 +82,11 @@ public class DragGUI extends GuiScreen
 			}
 		}
 		
-		GlStateManager.color(1, 1, 1, this.index1 / 128F);
+		GlStateManager.color(1, 1, 1, this.index1);
 		drawImage(new ResourceLocation("icons/icon_16x16.png"), (this.width / 2) - 42.5F, (this.height / 2) - 105, 85, 85);
-		RenderUtil.drawRect((this.width / 2) - 50, (this.height / 2) - 15, (this.width / 2) + 50, (this.height / 2) + 15, this.isInside(mouseX, mouseY, (this.width / 2) - 50, (this.height / 2) - 15, (this.width / 2) + 50, (this.height / 2) + 15) ? new Color(0, 0, 0, this.index1).getRGB() : new Color(0, 0, 0, this.index1 / 2).getRGB());
-		FixedFontRenderer.drawStringWithShadow("SETTINGS", (this.width / 2) - (FixedFontRenderer.getStringWidth("SETTINGS", 12) / 2), (this.height / 2) - 5, 12, new Color(255, 255, 255, (this.index1 * 2) > 255 ? 255 : (this.index1 * 2)).getRGB());
+		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 55, (this.height / 2) - 17, 110, 34);
+		RenderUtil.drawRect((this.width / 2) - 50, (this.height / 2) - 15, (this.width / 2) + 50, (this.height / 2) + 15, this.isInside(mouseX, mouseY, (this.width / 2) - 50, (this.height / 2) - 15, (this.width / 2) + 50, (this.height / 2) + 15) ? new Color(200, 200, 200, (int) (this.index1 * 255)).getRGB() : new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		FixedFontRenderer.drawString("SETTINGS", (this.width / 2) - (FixedFontRenderer.getStringWidth("SETTINGS", 12) / 2), (this.height / 2) - 5, 12, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		
 		for (ModGUI modGUI : this.modGUIs)
 		{
@@ -109,6 +107,19 @@ public class DragGUI extends GuiScreen
     }
 	
 	@Override
+	public void initGui()
+	{
+		super.initGui();
+		Mouse.setCursorPosition(Display.getWidth() / 2, (Display.getHeight() / 2) - 50);
+		this.modGUIs.clear();
+
+		for (Mod mod : Apple.CLIENT.getModsManager().getMods(Category.ALL).stream().filter(mod -> mod.hasGUI() && mod.isEnabled()).collect(Collectors.toCollection(ArrayList::new)))
+		{
+			this.modGUIs.add(new ModGUI(mod, this));
+		}
+	}
+	
+	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
 		if (keyCode == 1)
@@ -122,7 +133,7 @@ public class DragGUI extends GuiScreen
 		return mouseX > x && mouseX < width && mouseY > y && mouseY < height;
 	}
 	
-	public int getIndex1()
+	public float getIndex1()
 	{
 		return this.index1;
 	}
