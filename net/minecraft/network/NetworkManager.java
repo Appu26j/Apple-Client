@@ -2,6 +2,10 @@ package net.minecraft.network;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import apple26j.Apple;
+import apple26j.events.mc.EventKey;
+import apple26j.events.network.EventPacketReceive;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -141,6 +145,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
+            	Apple.CLIENT.postEvent(((EventPacketReceive) Apple.CLIENT.getEvent(EventPacketReceive.class)).setPacket(p_channelRead0_2_));
                 p_channelRead0_2_.processPacket(this.packetListener);
             }
             catch (ThreadQuickExitException var4)

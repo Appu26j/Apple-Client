@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import apple26j.events.entity.EventUpdate;
 import apple26j.events.gui.EventRender;
-import apple26j.events.mc.EventKey;
+import apple26j.events.mc.*;
+import apple26j.events.network.EventPacketReceive;
 
 public class EventsManager
 {
@@ -15,6 +16,8 @@ public class EventsManager
 		this.events.add(new EventUpdate());
 		this.events.add(new EventKey());
 		this.events.add(new EventRender());
+		this.events.add(new EventWorldChange());
+		this.events.add(new EventPacketReceive());
 	}
 	
 	public Event getEvent(Class classs)

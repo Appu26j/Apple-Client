@@ -15,6 +15,7 @@ import apple26j.events.mc.EventKey;
 import apple26j.gui.DragGUI;
 import apple26j.interfaces.MinecraftInterface;
 import apple26j.mods.*;
+import apple26j.settings.SettingsManager;
 import net.minecraft.util.ResourceLocation;
 
 public enum Apple implements MinecraftInterface
@@ -25,12 +26,14 @@ public enum Apple implements MinecraftInterface
 	private EventBus eventBus;
 	private ModsManager modsManager;
 	private EventsManager eventsManager;
+	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.2;
+	public static final double CLIENT_VERSION = 1.3;
 	
 	public void init()
 	{
 		(this.updateCheckThread = new UpdateCheckThread()).start();
+		this.settingsManager = new SettingsManager();
 		this.eventBus = new EventBus("Apple Client");
 		this.eventsManager = new EventsManager();
 		this.modsManager = new ModsManager();
@@ -74,6 +77,11 @@ public enum Apple implements MinecraftInterface
 	public EventsManager getEventsManager()
 	{
 		return this.eventsManager;
+	}
+	
+	public SettingsManager getSettingsManager()
+	{
+		return this.settingsManager;
 	}
 	
 	public void postEvent(Event e)

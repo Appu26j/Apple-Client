@@ -22,7 +22,7 @@ public class C01PacketChatMessage implements Packet<INetHandlerPlayServer>
 
         if (messageIn.toLowerCase().contains("lmao") || messageIn.toLowerCase().contains("lmfao"))
         {
-        	messageIn = messageIn.replaceAll("lmao", "lol").replaceAll("lmfao", "lol");
+        	messageIn = messageIn.replaceAll("lmao", "lol").replaceAll("LMAO", "LOL").replaceAll("lmfao", "lol").replaceAll("LMFAO", "LOL");
         }
 
         this.message = messageIn;

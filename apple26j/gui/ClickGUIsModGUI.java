@@ -33,18 +33,27 @@ public class ClickGUIsModGUI
 	
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
-		if (this.isInside(mouseX, mouseY, ((this.width / 2) - 225) + this.xOffset, ((this.height / 2) - 150) + this.yOffset, ((this.width / 2) - 225) + (this.xOffset + 120), ((this.height / 2) - 150) + (this.yOffset + 120)) && mouseButton == 0)
+		if (this.isInside(mouseX, mouseY, ((this.width / 2) - 225) + this.xOffset, ((this.height / 2) - 150) + this.yOffset, ((this.width / 2) - 225) + (this.xOffset + 120), ((this.height / 2) - 150) + (this.yOffset + 120)))
 		{
-			this.mod.toggle();
-			
-			if (this.mod.isEnabled())
+			if (mouseButton == 0)
 			{
-				SoundUtil.playEnableSound();
+				this.mod.toggle();
+				
+				if (this.mod.isEnabled())
+				{
+					SoundUtil.playEnableSound();
+				}
+				
+				else
+				{
+					SoundUtil.playDisableSound();
+				}
 			}
 			
 			else
 			{
-				SoundUtil.playDisableSound();
+				SoundUtil.playClickSound();
+				this.parent.setSelectedMod(this.mod);
 			}
 		}
     }

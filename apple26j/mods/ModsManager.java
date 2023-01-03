@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import apple26j.mods.general.*;
 import apple26j.mods.hud.Animations;
+import apple26j.mods.hypixel.AutoGG;
 
 public class ModsManager
 {
@@ -15,6 +16,7 @@ public class ModsManager
 		this.mods.add(new ToggleSprint());
 		this.mods.add(new Animations());
 		this.mods.add(new FullBright());
+		this.mods.add(new AutoGG());
 		this.enableDefaultMods();
 	}
 	

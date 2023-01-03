@@ -4,5 +4,5 @@ import apple26j.events.Event;
 
 public class EventUpdate extends Event
 {
-	
+	;
 }

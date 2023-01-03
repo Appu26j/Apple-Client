@@ -13,11 +13,17 @@ import apple26j.events.entity.EventUpdate;
 import apple26j.events.mc.EventKey;
 import apple26j.interfaces.ModInterface;
 import apple26j.mods.*;
+import apple26j.settings.Setting;
 
 @ModInterface(name = "Toggle Sprint", description = "Allows you to toggle automatic sprint.", width = 111.5F, height = 15, category = Category.GENERAL)
 public class ToggleSprint extends Mod
 {
 	private boolean flag = true, canSprint = true;
+	
+	public ToggleSprint()
+	{
+		this.addSetting(new Setting("GUI", this, true));
+	}
 	
 	@Override
 	public void onEnable()
@@ -63,7 +69,11 @@ public class ToggleSprint extends Mod
 	public void onRender()
 	{
 		super.onRender();
-		drawRect(this.x, this.y, this.width, this.height, new Color(0, 0, 0, 128).getRGB());
-		drawStringWithShadow("(Sprinting [" + (this.canSprint ? "Toggled" : "Vanilla") + "])", (this.x + 52.5F + 2.5F) - (getStringWidth("(Sprinting [" + (this.canSprint ? "Toggled" : "Vanilla") + "])", 8) / 2), this.y + 2.5F, 8, -1);
+
+		if (this.getSetting("GUI").getCheckBoxValue())
+		{
+			drawRect(this.x, this.y, this.width, this.height, new Color(0, 0, 0, 128).getRGB());
+			drawStringWithShadow("(Sprinting [" + (this.canSprint ? "Toggled" : "Vanilla") + "])", (this.x + 52.5F + 2.5F) - (getStringWidth("(Sprinting [" + (this.canSprint ? "Toggled" : "Vanilla") + "])", 8) / 2), this.y + 2.5F, 8, -1);
+		}
 	}
 }

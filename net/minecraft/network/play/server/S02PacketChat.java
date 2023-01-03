@@ -30,17 +30,17 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
 
     	if (messageIn1.toLowerCase().contains("lmao") || messageIn1.toLowerCase().contains("lmfao"))
         {
-        	messageIn1 = messageIn1.replaceAll("lmao", "lol").replaceAll("lmfao", "lol");
+    		messageIn1 = messageIn1.replaceAll("lmao", "lol").replaceAll("LMAO", "LOL").replaceAll("lmfao", "lol").replaceAll("LMFAO", "LOL");
         }
 
     	if (messageIn2.toLowerCase().contains("lmao") || messageIn2.toLowerCase().contains("lmfao"))
         {
-        	messageIn2 = messageIn2.replaceAll("lmao", "lol").replaceAll("lmfao", "lol");
+    		messageIn2 = messageIn2.replaceAll("lmao", "lol").replaceAll("LMAO", "LOL").replaceAll("lmfao", "lol").replaceAll("LMFAO", "LOL");
         }
 
     	if (messageIn3.toLowerCase().contains("lmao") || messageIn3.toLowerCase().contains("lmfao"))
         {
-        	messageIn3 = messageIn3.replaceAll("lmao", "lol").replaceAll("lmfao", "lol");
+    		messageIn3 = messageIn3.replaceAll("lmao", "lol").replaceAll("LMAO", "LOL").replaceAll("lmfao", "lol").replaceAll("LMFAO", "LOL");
         }
 
     	String one = messageIn1;

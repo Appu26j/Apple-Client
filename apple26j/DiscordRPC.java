@@ -6,6 +6,8 @@ import apple26j.DiscordRichPresence;
 
 public class DiscordRPC
 {
+	private static long milliseconds = System.currentTimeMillis();
+	
 	static
 	{
 		Discord.TRY_TO_AVOID_NATIVE_ERRORS = false;
@@ -33,6 +35,7 @@ public class DiscordRPC
 			discordRichPresence.State = text;
 			discordRichPresence.LargeImageKey = "apple";
 			discordRichPresence.LargeImageText = "Apple Client";
+			discordRichPresence.StartTimestamp = milliseconds;
 			Discord.UpdatePresence(discordRichPresence);
 		}
 		
@@ -46,7 +49,6 @@ public class DiscordRPC
 	{
 		try
 		{
-			Discord.UpdatePresence(null);
 			Discord.Shutdown();
 		}
 		

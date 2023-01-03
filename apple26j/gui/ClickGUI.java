@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import apple26j.Apple;
 import apple26j.fontrenderer.FixedFontRenderer;
 import apple26j.mods.*;
+import apple26j.settings.Setting;
 import apple26j.utils.*;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,6 +20,7 @@ public class ClickGUI extends GuiScreen
 	private TimeUtil timeUtil = new TimeUtil();
 	private boolean isGuiClosing = false;
 	private float index1 = 0;
+	private Mod selectedMod;
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -67,12 +69,32 @@ public class ClickGUI extends GuiScreen
 		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 205.5F, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
 		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 130, (this.width / 2) + 225, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
 		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 130, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
-		RenderUtil.drawCircle((this.width / 2) - 215, (this.height / 2) - 142, 4, new Color(255, 90, 80, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawCircle((this.width / 2) - 215, (this.height / 2) - 142, 4, (this.isInside(mouseX, mouseY, (this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) - 205, (this.height / 2) - 134) ? new Color(230, 90, 55, (int) (this.index1 * 255)) : new Color(255, 90, 80, (int) (this.index1 * 255))).getRGB());
 		FixedFontRenderer.drawString("Click GUI", (this.width / 2) - (FixedFontRenderer.getStringWidth("Click GUI", 8) / 2), (this.height / 2) - 145, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		
-		for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
+		if (this.selectedMod == null)
 		{
-			clickGUIsModGUI.drawScreen(mouseX, mouseY, partialTicks);
+			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
+			{
+				clickGUIsModGUI.drawScreen(mouseX, mouseY, partialTicks);
+			}
+		}
+		
+		else
+		{
+			FixedFontRenderer.drawString(this.selectedMod.getName(), (this.width / 2) - 208, (this.height / 2) - 120, 16, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+			FixedFontRenderer.drawString(this.selectedMod.getDescription(), (this.width / 2) - 208, (this.height / 2) - 100, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+			int settingsOffset = 0;
+			
+			for (Setting setting : Apple.CLIENT.getSettingsManager().getSettings(this.selectedMod))
+			{
+				if (setting.getTypeOfSetting().equals("Check Box"))
+				{
+					RenderUtil.drawRect((this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset, (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
+					FixedFontRenderer.drawString(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), (this.width / 2) - 204, ((this.height / 2) - 81) + settingsOffset, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+					settingsOffset += 17;
+				}
+			}
 		}
     }
 	
@@ -81,7 +103,15 @@ public class ClickGUI extends GuiScreen
     {
 		if (keyCode == 1)
         {
-            this.isGuiClosing = true;
+			if (this.selectedMod != null)
+			{
+				this.selectedMod = null;
+			}
+			
+			else
+			{
+	            this.isGuiClosing = true;
+			}
         }
     }
 	
@@ -96,9 +126,31 @@ public class ClickGUI extends GuiScreen
 			this.keyTyped('0', 1);
 		}
 		
-		for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
+		if (this.selectedMod == null)
 		{
-			clickGUIsModGUI.mouseClicked(mouseX, mouseY, mouseButton);
+			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
+			{
+				clickGUIsModGUI.mouseClicked(mouseX, mouseY, mouseButton);
+			}
+		}
+		
+		else
+		{
+			int settingsOffset = 0;
+			
+			for (Setting setting : Apple.CLIENT.getSettingsManager().getSettings(this.selectedMod))
+			{
+				if (setting.getTypeOfSetting().equals("Check Box"))
+				{
+					if (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset) && mouseButton == 0)
+					{
+						SoundUtil.playClickSound();
+						setting.setCheckBoxValue(!setting.getCheckBoxValue());
+					}
+					
+					settingsOffset += 17;
+				}
+			}
 		}
     }
 	
@@ -131,6 +183,11 @@ public class ClickGUI extends GuiScreen
 	public float getIndex1()
 	{
 		return this.index1;
+	}
+	
+	public void setSelectedMod(Mod selectedMod)
+	{
+		this.selectedMod = selectedMod;
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import apple26j.Apple;
 import apple26j.DiscordRPC;
-import apple26j.events.mc.EventKey;
+import apple26j.events.mc.*;
 import apple26j.mods.hud.Animations;
 
 import java.awt.image.BufferedImage;
@@ -2288,6 +2288,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
             	this.entityRenderer.getMapItemRenderer().clearLoadedMaps();
             }
+
+            Apple.CLIENT.postEvent(Apple.CLIENT.getEvent(EventWorldChange.class));
 
             if (this.thePlayer == null)
             {

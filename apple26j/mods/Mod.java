@@ -2,6 +2,7 @@ package apple26j.mods;
 
 import apple26j.Apple;
 import apple26j.interfaces.*;
+import apple26j.settings.Setting;
 import apple26j.utils.SoundUtil;
 
 public class Mod implements MinecraftInterface
@@ -135,5 +136,15 @@ public class Mod implements MinecraftInterface
 				toggle();
 			}
 		}
+	}
+	
+	public void addSetting(Setting setting)
+	{
+		Apple.CLIENT.getSettingsManager().addSetting(setting);
+	}
+	
+	public Setting getSetting(String name)
+	{
+		return Apple.CLIENT.getSettingsManager().getSetting(name, this);
 	}
 }
