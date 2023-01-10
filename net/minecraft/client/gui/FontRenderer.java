@@ -596,7 +596,7 @@ public class FontRenderer implements IResourceManagerReloadListener
         }
         else
         {
-            if (this.unicodeFlag)
+            if (this.unicodeFlag || text.contains("§l"))
             {
             	float f = 0.0F;
                 boolean flag = false;

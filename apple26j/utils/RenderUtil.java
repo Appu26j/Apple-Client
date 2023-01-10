@@ -3,6 +3,7 @@ package apple26j.utils;
 import static org.lwjgl.opengl.GL11.*;
 
 import apple26j.interfaces.MinecraftInterface;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -37,6 +38,37 @@ public class RenderUtil implements MinecraftInterface
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(red, green, blue, alpha);
+        worldrenderer.begin(GL_QUADS, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x, height, 0).endVertex();
+        worldrenderer.pos(width, height, 0).endVertex();
+        worldrenderer.pos(width, y, 0).endVertex();
+        worldrenderer.pos(x, y, 0).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+	}
+	
+	private static void drawRectNoColor(float x, float y, float width, float height, int color)
+	{
+		if (x < width)
+        {
+            float f = x;
+            x = width;
+            width = f;
+        }
+		
+        if (y < height)
+        {
+            float g = y;
+            y = height;
+            height = g;
+        }
+        
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         worldrenderer.begin(GL_QUADS, DefaultVertexFormats.POSITION);
         worldrenderer.pos(x, height, 0).endVertex();
         worldrenderer.pos(width, height, 0).endVertex();
@@ -101,6 +133,35 @@ public class RenderUtil implements MinecraftInterface
         GlStateManager.disableBlend();
 	}
 	
+	public static void drawRectWithRoundCorners(float x, float y, float width, float height, float radius, int color)
+	{
+        float red = (float) (color >> 16 & 255) / 255;
+        float green = (float) (color >> 8 & 255) / 255;
+        float blue = (float) (color & 255) / 255;
+        float alpha = (float) (color >> 24 & 255) / 255;
+        GlStateManager.color(red, green, blue, alpha);
+		drawRect(x + radius, y, width - radius, y + radius, color);
+		drawRect(x + radius, height - radius, width - radius, height, color);
+		drawRect(x, y + radius, width - radius, height - radius, color);
+		drawRect(width - radius, y + radius, width, height - radius, color);
+		glEnable(GL_SCISSOR_TEST);
+		scissor(x, y, x + radius, y + radius);
+		drawCircle(x + radius, y + radius, radius, color);
+		glDisable(GL_SCISSOR_TEST);
+		glEnable(GL_SCISSOR_TEST);
+		scissor(x, height - radius, x + radius, height);
+		drawCircle(x + radius, height - radius, radius, color);
+		glDisable(GL_SCISSOR_TEST);
+		glEnable(GL_SCISSOR_TEST);
+		scissor(width - radius, y, width, y + radius);
+		drawCircle(width - radius, y + radius, radius, color);
+		glDisable(GL_SCISSOR_TEST);
+		glEnable(GL_SCISSOR_TEST);
+		scissor(width - radius, height - radius, width, height);
+		drawCircle(width - radius, height - radius, radius, color);
+		glDisable(GL_SCISSOR_TEST);
+	}
+	
 	public static void drawCircle(float x, float y, float size, int color)
 	{
         float red = (float) (color >> 16 & 255) / 255;
@@ -124,11 +185,13 @@ public class RenderUtil implements MinecraftInterface
         GlStateManager.disableBlend();
     }
 	
-	private static void aMethod(WorldRenderer worldRenderer, float x, float y, float xRadius, float yRadius, int start, int end)
-	{
-        for (float f = start; f < end; f++)
-        {
-        	glVertex2d(x + Math.sin((f * Math.PI) / 180.0F) * xRadius, y + Math.cos((f * Math.PI) / 180.0F) * yRadius);
-        }
+	public static void scissor(float x, float y, float width, float height)
+    {
+    	ScaledResolution scaledResolution = new ScaledResolution(mc);
+    	x *= scaledResolution.getScaleFactor();
+    	y *= scaledResolution.getScaleFactor();
+    	width *= scaledResolution.getScaleFactor();
+    	height *= scaledResolution.getScaleFactor();
+        glScissor((int) x, mc.displayHeight - (int) height, (int) (width - x), (int) (height - y));
     }
 }
