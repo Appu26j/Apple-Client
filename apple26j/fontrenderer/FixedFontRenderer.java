@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.util.*;
 
 import apple26j.interfaces.MinecraftInterface;
+import apple26j.utils.TimeUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,6 +16,7 @@ public class FixedFontRenderer implements MinecraftInterface
 	private static final ResourceLocation font = new ResourceLocation("textures/font/ascii.png");
 	private static final ArrayList<String> textWidthsText = new ArrayList<>();
 	private static final ArrayList<Float> textWidthsFloat = new ArrayList<>();
+	private static final TimeUtil timeUtil = new TimeUtil();
 	
 	public static void drawStringWithShadow(String text, float x, float y, float size, int color)
 	{
@@ -73,6 +75,12 @@ public class FixedFontRenderer implements MinecraftInterface
 	
 	public static float getStringWidth(String text, float size)
 	{
+		if (timeUtil.hasTimePassed(60000))
+		{
+			textWidthsText.clear();
+			textWidthsFloat.clear();
+		}
+		
 		String texttt = textWidthsText.stream().filter(textt -> textt.equals(text)).findFirst().orElse(null);
 		
 		if (texttt != null)

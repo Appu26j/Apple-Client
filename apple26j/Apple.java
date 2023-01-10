@@ -28,7 +28,7 @@ public enum Apple implements MinecraftInterface
 	private EventsManager eventsManager;
 	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.3;
+	public static final double CLIENT_VERSION = 1.5;
 	
 	public void init()
 	{

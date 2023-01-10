@@ -452,7 +452,7 @@ public class RenderItem implements IResourceManagerReloadListener
 
         Animations animations = (Animations) Apple.CLIENT.getModsManager().getMod("1.7 Animations");
 
-        if (animations.isEnabled() && entityToRenderFor != null && entityToRenderFor instanceof EntityPlayer && ((EntityPlayer) entityToRenderFor).isBlocking() && cameraTransformType.equals(ItemCameraTransforms.TransformType.THIRD_PERSON))
+        if (animations.isEnabled() && animations.getSetting("1.7 Item Position").getCheckBoxValue() && entityToRenderFor != null && entityToRenderFor instanceof EntityPlayer && ((EntityPlayer) entityToRenderFor).isBlocking() && cameraTransformType.equals(ItemCameraTransforms.TransformType.THIRD_PERSON))
         {
             GlStateManager.translate(-0.15F, -0.2F, 0);
             GlStateManager.rotate(70.0F, 1.0F, 0, 0);

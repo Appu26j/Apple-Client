@@ -639,7 +639,7 @@ public class FontRenderer implements IResourceManagerReloadListener
             
             else
             {
-            	return Math.round(FixedFontRenderer.getStringWidth(text, 8));
+            	return Math.round(FixedFontRenderer.getStringWidth(text, this.FONT_HEIGHT - 1));
             }
         }
     }

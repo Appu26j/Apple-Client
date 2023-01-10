@@ -1399,7 +1399,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
         else
         {
-        	if (animations.isEnabled())
+        	if (animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue())
         	{
         		if (this.leftClickCounter <= 0)
                 {

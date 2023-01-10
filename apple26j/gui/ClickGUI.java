@@ -94,6 +94,13 @@ public class ClickGUI extends GuiScreen
 					FixedFontRenderer.drawString(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), (this.width / 2) - 204, ((this.height / 2) - 81) + settingsOffset, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 					settingsOffset += 17;
 				}
+				
+				if (setting.getTypeOfSetting().equals("Mode"))
+				{
+					RenderUtil.drawRect((this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset, (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
+					FixedFontRenderer.drawString(setting.getName() + ": " + setting.getModeValue(), (this.width / 2) - 204, ((this.height / 2) - 81) + settingsOffset, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+					settingsOffset += 17;
+				}
 			}
 		}
     }
@@ -146,6 +153,48 @@ public class ClickGUI extends GuiScreen
 					{
 						SoundUtil.playClickSound();
 						setting.setCheckBoxValue(!setting.getCheckBoxValue());
+					}
+					
+					settingsOffset += 17;
+				}
+				
+				if (setting.getTypeOfSetting().equals("Mode"))
+				{
+					if (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset))
+					{
+						int index = setting.getModes().indexOf(setting.getModeValue());
+						
+						if (mouseButton == 0)
+						{
+							SoundUtil.playClickSound();
+							
+							if (index < setting.getModes().size() - 1)
+							{
+				                index++;
+				            }
+							
+							else
+				            {
+				                index = 0;
+				            }
+						}
+						
+						if (mouseButton == 1)
+						{
+							SoundUtil.playClickSound();
+							
+							if (index > 0)
+							{
+				                index--;
+				            }
+							
+							else
+				            {
+				                index = setting.getModes().size() - 1;
+				            }
+						}
+						
+						setting.setModeValue(setting.getModes().get(index));
 					}
 					
 					settingsOffset += 17;

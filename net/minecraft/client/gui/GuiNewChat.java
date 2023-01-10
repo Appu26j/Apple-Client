@@ -82,6 +82,12 @@ public class GuiNewChat extends Gui
                                 drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
+
+                                if (s.toLowerCase().contains("lmao") || s.toLowerCase().contains("lmfao"))
+                                {
+                            		s = s.replaceAll("lmao", "lol").replaceAll("LMAO", "LOL").replaceAll("lmfao", "lol").replaceAll("LMFAO", "LOL");
+                                }
+
                                 this.mc.fontRendererObj.drawStringWithShadow(s, (float)i2, (float)(j2 - 8), 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();

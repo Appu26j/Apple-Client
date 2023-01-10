@@ -145,8 +145,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
-            	Apple.CLIENT.postEvent(((EventPacketReceive) Apple.CLIENT.getEvent(EventPacketReceive.class)).setPacket(p_channelRead0_2_));
-                p_channelRead0_2_.processPacket(this.packetListener);
+            	EventPacketReceive eventPacketReceive = ((EventPacketReceive) (Apple.CLIENT.getEvent(EventPacketReceive.class)).setCancelled(false)).setPacket(p_channelRead0_2_);
+            	Apple.CLIENT.postEvent(eventPacketReceive);
+
+            	if (!eventPacketReceive.isCancelled())
+            	{
+                    p_channelRead0_2_.processPacket(this.packetListener);
+            	}
             }
             catch (ThreadQuickExitException var4)
             {

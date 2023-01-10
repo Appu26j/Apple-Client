@@ -2,6 +2,11 @@ package apple26j.utils;
 
 public class GGUtil
 {
+	public static boolean containsGG(String message)
+	{
+		return message.contains("gg") || message.contains("gf") || message.contains("GG") || message.contains("Good Game") || message.contains("Well Played! <3");
+	}
+	
 	public static boolean hasGameEnded(String message)
 	{
         String[] triggers = getTriggers();

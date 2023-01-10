@@ -262,7 +262,7 @@ public class ItemRenderer
     {
     	Animations animations = (Animations) Apple.CLIENT.getModsManager().getMod("1.7 Animations");
 
-    	if (animations.isEnabled() && !(this.itemToRender.getItem() instanceof ItemBlock))
+    	if (animations.isEnabled() && animations.getSetting("1.7 Item Position").getCheckBoxValue() && !(this.itemToRender.getItem() instanceof ItemBlock))
     	{
     		if (this.itemToRender.getItem() instanceof ItemFishingRod)
     		{
@@ -327,7 +327,7 @@ public class ItemRenderer
     private void doBlockTransformations()
     {
     	Animations animations = (Animations) Apple.CLIENT.getModsManager().getMod("1.7 Animations");
-    	GlStateManager.translate(-0.5F, animations.isEnabled() ? 0.4F : 0.2F, 0.0F);
+    	GlStateManager.translate(-0.5F, animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue() ? 0.4F : 0.2F, 0.0F);
         GlStateManager.rotate(30.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-80.0F, 1.0F, 0.0F, 0.0F);
         GlStateManager.rotate(60.0F, 0.0F, 1.0F, 0.0F);
@@ -359,7 +359,7 @@ public class ItemRenderer
                 {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
 
-                    if (animations.isEnabled() && this.mc.thePlayer.isSwingInProgress)
+                    if (animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue() && this.mc.thePlayer.isSwingInProgress)
                     {
                     	f = 0;
                     }
@@ -373,16 +373,16 @@ public class ItemRenderer
                         case EAT:
                         case DRINK:
                             this.performDrinking(abstractclientplayer, partialTicks);
-                            this.transformFirstPersonItem(f, animations.isEnabled() ? f1 : 0.0F);
+                            this.transformFirstPersonItem(f, animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue() ? f1 : 0.0F);
                             break;
 
                         case BLOCK:
-                            this.transformFirstPersonItem(f, animations.isEnabled() ? f1 : 0.0F);
+                            this.transformFirstPersonItem(f, animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue() ? f1 : 0.0F);
                             this.doBlockTransformations();
                             break;
 
                         case BOW:
-                            this.transformFirstPersonItem(f, animations.isEnabled() ? f1 : 0.0F);
+                            this.transformFirstPersonItem(f, animations.isEnabled() && animations.getSetting("1.7 Block Hit").getCheckBoxValue() ? f1 : 0.0F);
                             this.doBowTransformations(partialTicks, abstractclientplayer);
                     }
                 }

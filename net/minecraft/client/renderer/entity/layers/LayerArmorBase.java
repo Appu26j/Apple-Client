@@ -51,7 +51,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
     public boolean shouldCombineTextures()
     {
     	Animations animations = (Animations) Apple.CLIENT.getModsManager().getMod("1.7 Animations");
-        return animations.isEnabled();
+        return animations.isEnabled() && animations.getSetting("1.7 Damage").getCheckBoxValue();
     }
 
     private void renderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot)

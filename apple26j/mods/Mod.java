@@ -111,7 +111,7 @@ public class Mod implements MinecraftInterface
 	
 	public boolean hasGUI()
 	{
-		return width != x && height != y;
+		return this.width != this.x && this.height != this.y;
 	}
 	
 	public boolean isEnabled()
