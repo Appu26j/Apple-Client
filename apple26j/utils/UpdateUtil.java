@@ -4,6 +4,7 @@ import apple26j.interfaces.MinecraftInterface;
 
 public class UpdateUtil implements MinecraftInterface
 {
+	// Updates Apple Client by launching updater.jar when minecraft closes
 	public static void update()
 	{
 		Runtime.getRuntime().addShutdownHook(new Thread()

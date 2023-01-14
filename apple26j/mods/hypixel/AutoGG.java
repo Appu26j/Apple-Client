@@ -33,6 +33,7 @@ public class AutoGG extends Mod
 				{
 					if (this.aBoolean)
 					{
+						// aBoolean variable to help only send once
 						mc.thePlayer.sendChatMessage(mc.getCurrentServerData().serverIP.toLowerCase().endsWith("hypixel.net") ? ("/ac " + this.getSetting("GG Message").getModeValue()) : this.getSetting("GG Message").getModeValue());
 						this.aBoolean = false;
 					}

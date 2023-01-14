@@ -42,7 +42,8 @@ public class ToggleSprint extends Mod
 			{
 				this.flag = true;
 			}
-			
+
+			// Sets the sprint keybind pressed to true
 			mc.gameSettings.keyBindSprint.setPressed(true);
 		}
 		
@@ -50,6 +51,7 @@ public class ToggleSprint extends Mod
 		{
 			if (this.flag)
 			{
+				// Sets the sprint keybind pressed if the key CTRL is down; else not
 				mc.gameSettings.keyBindSprint.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindSprint.getKeyCode()));
 				this.flag = false;
 			}
@@ -61,6 +63,7 @@ public class ToggleSprint extends Mod
 	{
 		if (e.getKey() == mc.gameSettings.keyBindSprint.getKeyCode())
 		{
+			// Sets the ability to sprint either true or false
 			this.canSprint = !this.canSprint;
 		}
 	}

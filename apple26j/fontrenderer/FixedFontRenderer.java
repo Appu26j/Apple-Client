@@ -64,6 +64,7 @@ public class FixedFontRenderer implements MinecraftInterface
 			
 			else
 			{
+				// Draws a character
 				drawImage(font, x + offset, y, characterIndex % 16 * 8, characterIndex / 16 * 8, 8, 8, 128, 128, size, size);
 				offset += mc.fontRendererObj.getCharWidthNoUnicode((char) characterIndex) * (size / 8);
 			}
@@ -77,6 +78,7 @@ public class FixedFontRenderer implements MinecraftInterface
 	{
 		if (timeUtil.hasTimePassed(60000))
 		{
+			// Clears the cache
 			textWidthsText.clear();
 			textWidthsFloat.clear();
 		}
@@ -85,6 +87,7 @@ public class FixedFontRenderer implements MinecraftInterface
 		
 		if (texttt != null)
 		{
+			// If the text is cached, return the text's width (as we already know it is there)
 			return textWidthsFloat.get(textWidthsText.indexOf(texttt));
 		}
 		

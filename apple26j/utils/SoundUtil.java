@@ -10,11 +10,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class SoundUtil implements MinecraftInterface
 {
+	// Plays the click sound
 	public static synchronized void playClickSound()
 	{
 		mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1));
 	}
 	
+	// Plays the Jello for Sigma enable sound
 	public static synchronized void playEnableSound()
 	{
 		File enableSound = new File(System.getProperty("java.io.tmpdir"), "enable.wav");
@@ -44,6 +46,7 @@ public class SoundUtil implements MinecraftInterface
 		}
 	}
 	
+	// Plays the Jello for Sigma disable sound
 	public static synchronized void playDisableSound()
 	{
 		File disableSound = new File(System.getProperty("java.io.tmpdir"), "disable.wav");

@@ -9,6 +9,7 @@ import net.minecraft.src.Config;
 
 public class UpdateCheckThread extends Thread implements MinecraftInterface
 {
+	// The update status
 	private CheckStatus checkStatus = mc.gameSettings.checkForUpdates ? CheckStatus.CHECKING : CheckStatus.UP_TO_DATE;
 	
 	@Override
@@ -20,11 +21,13 @@ public class UpdateCheckThread extends Thread implements MinecraftInterface
 		{
 			try
 			{
+				// Checks for updates
 				HttpsURLConnection httpsURLConnection = ((HttpsURLConnection) (new URL("https://pastebin.com/raw/G6Vd208t")).openConnection());
 				httpsURLConnection.setDoInput(true);
 				httpsURLConnection.setDoOutput(false);
 				httpsURLConnection.connect();
-				double version = Double.parseDouble(Config.readInputStream(httpsURLConnection.getInputStream()).replaceAll("\n", ""));			
+				double version = Double.parseDouble(Config.readInputStream(httpsURLConnection.getInputStream()).replaceAll("\n", ""));		
+				httpsURLConnection.disconnect();	
 				this.checkStatus = Apple.CLIENT_VERSION < version ? CheckStatus.AVAILABLE : CheckStatus.UP_TO_DATE;
 			}
 			

@@ -28,7 +28,7 @@ public enum Apple implements MinecraftInterface
 	private EventsManager eventsManager;
 	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.5;
+	public static final double CLIENT_VERSION = 1.6;
 	
 	public void init()
 	{
@@ -48,6 +48,7 @@ public enum Apple implements MinecraftInterface
 	{
 		if (e.getKey() == Keyboard.KEY_RSHIFT)
 		{
+			// Display DragGUI
 			mc.displayGuiScreen(this.dragGUI);
 		}
 	}
@@ -59,6 +60,7 @@ public enum Apple implements MinecraftInterface
 		{
 			for (Mod mod : this.modsManager.getMods(Category.ALL).stream().filter(mod -> mod.hasGUI() && mod.isEnabled()).collect(Collectors.toCollection(ArrayList::new)))
 			{
+				// Render mods' GUI
 				mod.onRender();
 			}
 		}

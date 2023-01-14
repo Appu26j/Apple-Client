@@ -14,6 +14,7 @@ public class Mod implements MinecraftInterface
 	private Category category = this.modInterface.category();
 	private boolean enabled = false;
 	
+	// If it is enabled, disable the mod; else enable it
 	public void toggle()
 	{
 		if (this.enabled)
@@ -29,6 +30,7 @@ public class Mod implements MinecraftInterface
 		}
 	}
 	
+	// Renders GUI
 	public void onRender()
 	{
 		;

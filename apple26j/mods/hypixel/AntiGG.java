@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S02PacketChat;
 @ModInterface(name = "Anti GG", description = "Hides \"GG\" messages at the end of a game.", category = Category.HYPIXEL)
 public class AntiGG extends Mod
 {
-	private boolean aBoolean = true;
+	private boolean hasGameEnded = false;
 	
 	public AntiGG()
 	{
@@ -29,12 +29,12 @@ public class AntiGG extends Mod
 			{
 				String message = ((S02PacketChat) e.getPacket()).getChatComponent().getUnformattedText();
 				
-				if (!this.aBoolean)
+				if (!this.hasGameEnded)
 				{
-					this.aBoolean = GGUtil.hasGameEnded(message);
+					this.hasGameEnded = GGUtil.hasGameEnded(message);
 				}
 				
-				if (this.aBoolean)
+				if (this.hasGameEnded)
 				{
 					if (GGUtil.containsGG(message))
 					{
@@ -59,6 +59,6 @@ public class AntiGG extends Mod
 	@Subscribe
 	public void onWorldChange(EventWorldChange e)
 	{
-		this.aBoolean = false;
+		this.hasGameEnded = false;
 	}
 }

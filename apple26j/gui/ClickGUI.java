@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import apple26j.Apple;
 import apple26j.fontrenderer.FixedFontRenderer;
 import apple26j.mods.*;
@@ -17,6 +19,7 @@ public class ClickGUI extends GuiScreen
 {
 	private long refreshRate = (long) (1000F / GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate());
 	private ArrayList<ClickGUIsModGUI> clickGUIsModGUIs = new ArrayList<>();
+	private Category selectedCategory = Category.ALL;
 	private TimeUtil timeUtil = new TimeUtil();
 	private boolean isGuiClosing = false;
 	private float index1 = 0;
@@ -66,18 +69,30 @@ public class ClickGUI extends GuiScreen
 		
 		GlStateManager.color(1, 1, 1, this.index1);
 		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 248, (this.height / 2) - 167, 496, 334);
-		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 205.5F, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
-		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 130, (this.width / 2) + 225, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
-		RenderUtil.drawRect((this.width / 2) + 205.5F, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) - 130, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
 		RenderUtil.drawCircle((this.width / 2) - 215, (this.height / 2) - 142, 4, (this.isInside(mouseX, mouseY, (this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) - 205, (this.height / 2) - 134) ? new Color(230, 90, 55, (int) (this.index1 * 255)) : new Color(255, 90, 80, (int) (this.index1 * 255))).getRGB());
 		FixedFontRenderer.drawString("Click GUI", (this.width / 2) - (FixedFontRenderer.getStringWidth("Click GUI", 8) / 2), (this.height / 2) - 145, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		
 		if (this.selectedMod == null)
 		{
+			float offset = 0;
+			
+			for (Category category : Category.values())
+			{
+				RenderUtil.drawRect(((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108, this.selectedCategory == category ? new Color(200, 50, 50, (int) (this.index1 * 255)).getRGB() : (this.isInside(mouseX, mouseY, ((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108) ? new Color(0, 0, 0, (int) (this.index1 * 64)) : new Color(0, 0, 0, (int) (this.index1 * 32))).getRGB());
+				FixedFontRenderer.drawString(category.name(), ((this.width / 2) - 202) + offset, (this.height / 2) - 122, 8, (this.selectedCategory == category ? new Color(230, 230, 230, (int) (this.index1 * 255)) : new Color(75, 75, 75, (int) (this.index1 * 255))).getRGB());
+				offset += 79.75F;
+			}
+			
+			GL11.glEnable(GL11.GL_SCISSOR_TEST);
+			RenderUtil.scissor((this.width / 2) - 208, (this.height / 2) - 99, (this.width / 2) + 182, (this.height / 2) + 150);
+			
 			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
 			{
 				clickGUIsModGUI.drawScreen(mouseX, mouseY, partialTicks);
 			}
+			
+			GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		}
 		
 		else
@@ -135,6 +150,34 @@ public class ClickGUI extends GuiScreen
 		
 		if (this.selectedMod == null)
 		{
+			float offset = 0;
+			
+			for (Category category : Category.values())
+			{
+				if (this.isInside(mouseX, mouseY, ((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108) && mouseButton == 0)
+				{
+					SoundUtil.playClickSound();
+					this.selectedCategory = category;
+					this.clickGUIsModGUIs.clear();
+					int xOffset = 17;
+					int yOffset = 51;
+					
+					for (Mod mod : Apple.CLIENT.getModsManager().getMods(this.selectedCategory))
+					{
+						if (xOffset == 422)
+						{
+							xOffset = 17;
+							yOffset += 135;
+						}
+						
+						this.clickGUIsModGUIs.add(new ClickGUIsModGUI(mod, this, xOffset, yOffset, this.width, this.height));
+						xOffset += 135;
+					}
+				}
+				
+				offset += 79.75F;
+			}
+			
 			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
 			{
 				clickGUIsModGUI.mouseClicked(mouseX, mouseY, mouseButton);
@@ -209,9 +252,9 @@ public class ClickGUI extends GuiScreen
 		super.initGui();
 		this.clickGUIsModGUIs.clear();
 		int xOffset = 17;
-		int yOffset = 34;
+		int yOffset = 51;
 		
-		for (Mod mod : Apple.CLIENT.getModsManager().getMods(Category.ALL))
+		for (Mod mod : Apple.CLIENT.getModsManager().getMods(this.selectedCategory))
 		{
 			if (xOffset == 422)
 			{

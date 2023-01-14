@@ -4,6 +4,7 @@ public class GGUtil
 {
 	public static boolean containsGG(String message)
 	{
+		// Check if message contains GG
 		return message.contains("gg") || message.contains("gf") || message.contains("GG") || message.contains("Good Game") || message.contains("Well Played! <3");
 	}
 	
