@@ -28,7 +28,7 @@ public class TimeUtil
 		}
 	}
 	
-	public void reset()
+	private void reset()
 	{
 		this.previousTime = this.getCurrentTime();
 	}

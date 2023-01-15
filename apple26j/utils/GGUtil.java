@@ -2,6 +2,11 @@ package apple26j.utils;
 
 public class GGUtil
 {
+	private GGUtil()
+	{
+		;
+	}
+	
 	public static boolean containsGG(String message)
 	{
 		// Check if message contains GG

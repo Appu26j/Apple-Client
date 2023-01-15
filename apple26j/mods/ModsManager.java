@@ -3,6 +3,7 @@ package apple26j.mods;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import apple26j.config.Config;
 import apple26j.mods.general.*;
 import apple26j.mods.hud.Animations;
 import apple26j.mods.hypixel.*;
@@ -25,6 +26,7 @@ public class ModsManager
 	{
 		this.getMod("Toggle Sprint").setEnabled(true);
 		this.getMod("1.7 Animations").setEnabled(true);
+		Config.loadMods();
 	}
 	
 	public ArrayList<Mod> getMods(Category category)

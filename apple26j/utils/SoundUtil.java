@@ -10,6 +10,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class SoundUtil implements MinecraftInterface
 {
+	private SoundUtil()
+	{
+		;
+	}
+	
 	// Plays the click sound
 	public static synchronized void playClickSound()
 	{

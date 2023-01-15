@@ -9,8 +9,13 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderUtil implements MinecraftInterface
-{
+{	
 	private static ResourceLocation storedResourceLocation;
+	
+	private RenderUtil()
+	{
+		;
+	}
 	
 	public static void drawRect(float x, float y, float width, float height, int color)
 	{

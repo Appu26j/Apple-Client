@@ -4,6 +4,11 @@ import apple26j.interfaces.MinecraftInterface;
 
 public class UpdateUtil implements MinecraftInterface
 {
+	private UpdateUtil()
+	{
+		;
+	}
+	
 	// Updates Apple Client by launching updater.jar when minecraft closes
 	public static void update()
 	{

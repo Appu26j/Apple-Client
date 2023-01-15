@@ -16,6 +16,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import apple26j.Apple;
 import apple26j.DiscordRPC;
+import apple26j.config.Config;
 import apple26j.events.mc.*;
 import apple26j.mods.hud.Animations;
 
@@ -920,6 +921,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             int j = scaledresolution.getScaledHeight();
             ((GuiScreen)guiScreenIn).setWorldAndResolution(this, i, j);
             this.skipRenderWorld = false;
+            Config.saveMods();
         }
         else
         {
