@@ -616,39 +616,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         if (this.aBoolean && (Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) || Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.CHECKING)))
         {
-        	ArrayList<String> arrayList = new ArrayList<>();
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("                                                               ");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	arrayList.add("");
-        	this.drawHoveringText(arrayList, (this.width / 2) - 138, (this.height / 2) - 69);
+        	this.drawRect((this.width / 2) - 150, (this.height / 2) - 125, (this.width / 2) + 150, (this.height / 2) + 125, new Color(25, 25, 25, 150).getRGB());
         	GlStateManager.disableLighting();
-        	FixedFontRenderer.drawStringWithShadow(Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) ? "An update is available!" : "Checking for updates...", (this.width / 2) - (FixedFontRenderer.getStringWidth(Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) ? "An update is available!" : "Checking for updates...", 16) / 2), (this.height / 2) - 60, 16, -1);
+        	FixedFontRenderer.drawStringWithShadow(Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) ? "An update is available!" : "Checking for updates...", (this.width / 2) - (FixedFontRenderer.getStringWidth(Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE) ? "An update is available!" : "Checking for updates...", 16) / 2), (this.height / 2) - 90, 16, -1);
 
         	if (Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE))
         	{
-        		FixedFontRenderer.drawStringWithShadow("Do you want to update?", (this.width / 2) - (FixedFontRenderer.getStringWidth("Do you want to update?", 16) / 2), (this.height / 2) - 35, 16, -1);
-            	RenderUtil.drawRect((this.width / 2) - 100, (this.height / 2) + 90, (this.width / 2) - 10, (this.height / 2) + 110, this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 90, (this.width / 2) - 10, (this.height / 2) + 110) ? new Color(40, 40, 40, 128).getRGB() : new Color(25, 25, 25, 128).getRGB());
-            	RenderUtil.drawRect((this.width / 2) + 10, (this.height / 2) + 90, (this.width / 2) + 100, (this.height / 2) + 110, this.isInside(mouseX, mouseY, (this.width / 2) + 10, (this.height / 2) + 90, (this.width / 2) + 100, (this.height / 2) + 110) ? new Color(40, 40, 40, 128).getRGB() : new Color(25, 25, 25, 128).getRGB());
-            	FixedFontRenderer.drawStringWithShadow("Yes", (this.width / 2) - 68, (this.height / 2) + 94, 12, new Color(255, 25, 25).getRGB());
-            	FixedFontRenderer.drawStringWithShadow("No", (this.width / 2) + 48, (this.height / 2) + 94, 12, new Color(255, 25, 25).getRGB());
+        		FixedFontRenderer.drawStringWithShadow("Do you want to update?", (this.width / 2) - (FixedFontRenderer.getStringWidth("Do you want to update?", 16) / 2), (this.height / 2) - 65, 16, -1);
+            	RenderUtil.drawRect((this.width / 2) - 100, (this.height / 2) + 80, (this.width / 2) - 10, (this.height / 2) + 100, this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 80, (this.width / 2) - 10, (this.height / 2) + 100) ? new Color(75, 75, 85, 100).getRGB() : new Color(60, 60, 70, 100).getRGB());
+            	RenderUtil.drawRect((this.width / 2) + 10, (this.height / 2) + 80, (this.width / 2) + 100, (this.height / 2) + 100, this.isInside(mouseX, mouseY, (this.width / 2) + 10, (this.height / 2) + 80, (this.width / 2) + 100, (this.height / 2) + 100) ? new Color(75, 75, 85, 100).getRGB() : new Color(60, 60, 70, 100).getRGB());
+            	FixedFontRenderer.drawStringWithShadow("Yes", (this.width / 2) - 68, (this.height / 2) + 84, 12, new Color(255, 25, 25).getRGB());
+            	FixedFontRenderer.drawStringWithShadow("No", (this.width / 2) + 48, (this.height / 2) + 84, 12, new Color(255, 25, 25).getRGB());
         	}
         }
     }
@@ -659,13 +637,13 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         if (this.aBoolean && Apple.CLIENT.getUpdateCheckThread().getCheckStatus().equals(CheckStatus.AVAILABLE))
         {
-            if (this.isInside(mouseX, mouseY, (this.width / 2) + 10, (this.height / 2) + 90, (this.width / 2) + 100, (this.height / 2) + 110))
+            if (this.isInside(mouseX, mouseY, (this.width / 2) + 10, (this.height / 2) + 80, (this.width / 2) + 100, (this.height / 2) + 100))
             {
             	this.aBoolean = false;
             	SoundUtil.playClickSound();
             }
 
-            if (this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 90, (this.width / 2) - 10, (this.height / 2) + 110))
+            if (this.isInside(mouseX, mouseY, (this.width / 2) - 100, (this.height / 2) + 80, (this.width / 2) - 10, (this.height / 2) + 100))
             {
             	this.aBoolean = false;
             	SoundUtil.playClickSound();
