@@ -24,7 +24,7 @@ public class SoundUtil implements MinecraftInterface
 	// Plays the Jello for Sigma enable sound
 	public static synchronized void playEnableSound()
 	{
-		File enableSound = new File(System.getProperty("java.io.tmpdir"), "enable.wav");
+		File enableSound = new File("sounds" + File.separator + "enable.wav");
 		
 		if (enableSound.exists())
 		{
@@ -54,7 +54,7 @@ public class SoundUtil implements MinecraftInterface
 	// Plays the Jello for Sigma disable sound
 	public static synchronized void playDisableSound()
 	{
-		File disableSound = new File(System.getProperty("java.io.tmpdir"), "disable.wav");
+		File disableSound = new File("sounds" + File.separator + "disable.wav");
 		
 		if (disableSound.exists())
 		{

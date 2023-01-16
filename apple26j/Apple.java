@@ -28,7 +28,7 @@ public enum Apple implements MinecraftInterface
 	private EventsManager eventsManager;
 	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.8;
+	public static final double CLIENT_VERSION = 1.9;
 	
 	public void init()
 	{
@@ -103,14 +103,16 @@ public enum Apple implements MinecraftInterface
 	
 	public void extractSoundFiles()
 	{
-		File enableSound = new File(System.getProperty("java.io.tmpdir"), "enable.wav");
-		File disableSound = new File(System.getProperty("java.io.tmpdir"), "disable.wav");
+		File enableSound = new File("sounds" + File.separator + "enable.wav");
+		File disableSound = new File("sounds" + File.separator + "disable.wav");
 		
 		if (!(enableSound.exists() || disableSound.exists()))
 		{
 			try
 			{
+				enableSound.getParentFile().mkdirs();
 				enableSound.createNewFile();
+				disableSound.getParentFile().mkdirs();
 				disableSound.createNewFile();
 				InputStream inputStream1 = mc.getResourceManager().getResource(new ResourceLocation("sounds/enable.wav")).getInputStream();
 				InputStream inputStream2 = mc.getResourceManager().getResource(new ResourceLocation("sounds/disable.wav")).getInputStream();
