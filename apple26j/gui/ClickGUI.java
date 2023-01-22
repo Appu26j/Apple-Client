@@ -68,10 +68,10 @@ public class ClickGUI extends GuiScreen
 		}
 		
 		GlStateManager.color(1, 1, 1, this.index1);
-		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 248, (this.height / 2) - 167, 496, 334);
-		RenderUtil.drawRect((this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) + 225, (this.height / 2) + 150, new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
-		RenderUtil.drawCircle((this.width / 2) - 215, (this.height / 2) - 142, 4, (this.isInside(mouseX, mouseY, (this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) - 205, (this.height / 2) - 134) ? new Color(230, 90, 55, (int) (this.index1 * 255)) : new Color(255, 90, 80, (int) (this.index1 * 255))).getRGB());
-		FixedFontRenderer.drawString("Click GUI", (this.width / 2) - (FixedFontRenderer.getStringWidth("Click GUI", 8) / 2), (this.height / 2) - 145, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 248 + (25 - (this.index1 * 25)), (this.height / 2) - 167 + (25 - (this.index1 * 25)), 496, 334);
+		RenderUtil.drawRect((this.width / 2) - 225 + (25 - (this.index1 * 25)), (this.height / 2) - 150 + (25 - (this.index1 * 25)), (this.width / 2) + 225 + (25 - (this.index1 * 25)), (this.height / 2) + 150 + (25 - (this.index1 * 25)), new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
+		RenderUtil.drawCircle((this.width / 2) - 215 + (25 - (this.index1 * 25)), (this.height / 2) - 142 + (25 - (this.index1 * 25)), 4, (this.isInside(mouseX, mouseY, (this.width / 2) - 225, (this.height / 2) - 150, (this.width / 2) - 205, (this.height / 2) - 134) ? new Color(230, 90, 55, (int) (this.index1 * 255)) : new Color(255, 90, 80, (int) (this.index1 * 255))).getRGB());
+		FixedFontRenderer.drawString("Click GUI", (this.width / 2) - (FixedFontRenderer.getStringWidth("Click GUI", 8) / 2) + (25 - (this.index1 * 25)), (this.height / 2) - 145 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		
 		if (this.selectedMod == null)
 		{
@@ -79,13 +79,13 @@ public class ClickGUI extends GuiScreen
 			
 			for (Category category : Category.values())
 			{
-				RenderUtil.drawRect(((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108, this.selectedCategory == category ? new Color(200, 50, 50, (int) (this.index1 * 255)).getRGB() : (this.isInside(mouseX, mouseY, ((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108) ? new Color(0, 0, 0, (int) (this.index1 * 64)) : new Color(0, 0, 0, (int) (this.index1 * 32))).getRGB());
-				FixedFontRenderer.drawString(category.name(), ((this.width / 2) - 202) + offset, (this.height / 2) - 122, 8, (this.selectedCategory == category ? new Color(230, 230, 230, (int) (this.index1 * 255)) : new Color(75, 75, 75, (int) (this.index1 * 255))).getRGB());
+				RenderUtil.drawRect(((this.width / 2) - 208) + offset + (25 - (this.index1 * 25)), (this.height / 2) - 128 + (25 - (this.index1 * 25)), ((this.width / 2) - 137) + offset + (25 - (this.index1 * 25)), (this.height / 2) - 108 + (25 - (this.index1 * 25)), this.selectedCategory == category ? new Color(200, 50, 50, (int) (this.index1 * 255)).getRGB() : (this.isInside(mouseX, mouseY, ((this.width / 2) - 208) + offset, (this.height / 2) - 128, ((this.width / 2) - 137) + offset, (this.height / 2) - 108) ? new Color(0, 0, 0, (int) (this.index1 * 64)) : new Color(0, 0, 0, (int) (this.index1 * 32))).getRGB());
+				FixedFontRenderer.drawString(category.name(), ((this.width / 2) - 202) + offset + (25 - (this.index1 * 25)), (this.height / 2) - 122 + (25 - (this.index1 * 25)), 8, (this.selectedCategory == category ? new Color(230, 230, 230, (int) (this.index1 * 255)) : new Color(75, 75, 75, (int) (this.index1 * 255))).getRGB());
 				offset += 79.75F;
 			}
 			
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-			RenderUtil.scissor((this.width / 2) - 208, (this.height / 2) - 99, (this.width / 2) + 182, (this.height / 2) + 150);
+			RenderUtil.scissor((this.width / 2) - 208 + (25 - (this.index1 * 25)), (this.height / 2) - 99 + (25 - (this.index1 * 25)), (this.width / 2) + 182 + (25 - (this.index1 * 25)), (this.height / 2) + 150 + (25 - (this.index1 * 25)));
 			
 			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
 			{
@@ -97,23 +97,23 @@ public class ClickGUI extends GuiScreen
 		
 		else
 		{
-			FixedFontRenderer.drawString(this.selectedMod.getName(), (this.width / 2) - 208, (this.height / 2) - 120, 16, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
-			FixedFontRenderer.drawString(this.selectedMod.getDescription(), (this.width / 2) - 208, (this.height / 2) - 100, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+			FixedFontRenderer.drawString(this.selectedMod.getName(), (this.width / 2) - 208 + (25 - (this.index1 * 25)), (this.height / 2) - 120 + (25 - (this.index1 * 25)), 16, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+			FixedFontRenderer.drawString(this.selectedMod.getDescription(), (this.width / 2) - 208 + (25 - (this.index1 * 25)), (this.height / 2) - 100 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 			int settingsOffset = 0;
 			
 			for (Setting setting : Apple.CLIENT.getSettingsManager().getSettings(this.selectedMod))
 			{
 				if (setting.getTypeOfSetting().equals("Check Box"))
 				{
-					RenderUtil.drawRect((this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset, (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
-					FixedFontRenderer.drawString(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), (this.width / 2) - 204, ((this.height / 2) - 81) + settingsOffset, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+					RenderUtil.drawRect((this.width / 2) - 208 + (25 - (this.index1 * 25)), ((this.height / 2) - 85) + settingsOffset + (25 - (this.index1 * 25)), (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)) + (25 - (this.index1 * 25)), ((this.height / 2) - 70) + settingsOffset + (25 - (this.index1 * 25)), (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
+					FixedFontRenderer.drawString(setting.getName() + ": " + (setting.getCheckBoxValue() ? "True" : "False"), (this.width / 2) - 204 + (25 - (this.index1 * 25)), ((this.height / 2) - 81) + settingsOffset + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 					settingsOffset += 17;
 				}
 				
 				if (setting.getTypeOfSetting().equals("Mode"))
 				{
-					RenderUtil.drawRect((this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset, (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
-					FixedFontRenderer.drawString(setting.getName() + ": " + setting.getModeValue(), (this.width / 2) - 204, ((this.height / 2) - 81) + settingsOffset, 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+					RenderUtil.drawRect((this.width / 2) - 208 + (25 - (this.index1 * 25)), ((this.height / 2) - 85) + settingsOffset + (25 - (this.index1 * 25)), (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)) + (25 - (this.index1 * 25)), ((this.height / 2) - 70) + settingsOffset + (25 - (this.index1 * 25)), (this.isInside(mouseX, mouseY, (this.width / 2) - 208, ((this.height / 2) - 85) + settingsOffset, (this.width / 2) - (201 - FixedFontRenderer.getStringWidth(setting.getName() + ": " + setting.getModeValue(), 8)), ((this.height / 2) - 70) + settingsOffset) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
+					FixedFontRenderer.drawString(setting.getName() + ": " + setting.getModeValue(), (this.width / 2) - 204 + (25 - (this.index1 * 25)), ((this.height / 2) - 81) + settingsOffset + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 					settingsOffset += 17;
 				}
 			}

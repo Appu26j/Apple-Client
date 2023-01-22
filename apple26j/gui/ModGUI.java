@@ -21,19 +21,24 @@ public class ModGUI
     {
 		this.mod.onRender();
 		
-		if (this.isInside(mouseX, mouseY, this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight()))
+		if (this.isInsideMod(mouseX, mouseY))
 		{
 			drawOutline(this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight(), new Color(255, 255, 255, (int) (this.parent.getIndex1() * 255)).getRGB());
 		}
     }
 	
-	public boolean isInside(int mouseX, int mouseY, float x, float y, float width, float height)
+	public boolean isInsideMod(int mouseX, int mouseY)
 	{
-		return mouseX > x && mouseX < width && mouseY > y && mouseY < height;
+		return this.isInside(mouseX, mouseY, this.mod.getX(), this.mod.getY(), this.mod.getWidth(), this.mod.getHeight());
 	}
 	
 	public Mod getMod()
 	{
 		return this.mod;
+	}
+	
+	public boolean isInside(int mouseX, int mouseY, float x, float y, float width, float height)
+	{
+		return mouseX > x && mouseX < width && mouseY > y && mouseY < height;
 	}
 }

@@ -12,7 +12,7 @@ import com.google.common.eventbus.*;
 import apple26j.events.*;
 import apple26j.events.gui.EventRender;
 import apple26j.events.mc.EventKey;
-import apple26j.gui.DragGUI;
+import apple26j.gui.*;
 import apple26j.interfaces.MinecraftInterface;
 import apple26j.mods.*;
 import apple26j.settings.SettingsManager;
@@ -23,12 +23,13 @@ public enum Apple implements MinecraftInterface
 	CLIENT;
 	
 	private DragGUI dragGUI;
+	private MusicGUI musicGUI;
 	private EventBus eventBus;
 	private ModsManager modsManager;
 	private EventsManager eventsManager;
 	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.9;
+	public static final double CLIENT_VERSION = 1.92;
 	
 	public void init()
 	{
@@ -37,10 +38,12 @@ public enum Apple implements MinecraftInterface
 		this.eventBus = new EventBus("Apple Client");
 		this.eventsManager = new EventsManager();
 		this.modsManager = new ModsManager();
+		this.musicGUI = new MusicGUI();
 		this.dragGUI = new DragGUI();
 		this.eventBus.register(this);
 		this.extractSoundFiles();
 		this.extractUpdater();
+		this.extractSongs();
 	}
 	
 	@Subscribe
@@ -48,8 +51,14 @@ public enum Apple implements MinecraftInterface
 	{
 		if (e.getKey() == Keyboard.KEY_RSHIFT)
 		{
-			// Display DragGUI
+			// Displays DragGUI
 			mc.displayGuiScreen(this.dragGUI);
+		}
+		
+		else if (e.getKey() == Keyboard.KEY_M)
+		{
+			// Displays MusicGUI
+			mc.displayGuiScreen(this.musicGUI);
 		}
 	}
 	
@@ -144,6 +153,49 @@ public enum Apple implements MinecraftInterface
 			{
 				;
 			}
+		}
+	}
+	
+	public void extractSongs()
+	{
+		File songs = new File("songs");
+		
+		try
+		{
+			if (!songs.exists())
+			{
+				songs.mkdirs();
+			}
+			
+			for (String song : MusicGUI.getSongsList())
+			{
+				File songFile = new File(songs, song + ".wav");
+				
+				if (songFile.exists())
+				{
+					songFile.delete();
+				}
+				
+				songFile.createNewFile();
+				
+				InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation("songs/" + song + ".wav")).getInputStream();
+				
+				try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(Files.newOutputStream(songFile.toPath())))
+		        {
+		            byte [] bytes = new byte[4096];
+		            int read;
+
+		            while ((read = inputStream.read(bytes)) != -1)
+		            {
+		                bufferedOutputStream.write(bytes, 0, read);
+		            }
+		        }
+			}
+		}
+		
+		catch (Exception e)
+		{
+			;
 		}
 	}
 	

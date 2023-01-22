@@ -25,16 +25,25 @@ import net.minecraft.util.ResourceLocation;
 public class DragGUI extends GuiScreen
 {
 	private long refreshRate = (long) (1000F / GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate());
+	private float index1 = 0, dragX, dragY, dragWidth, dragHeight;
 	private boolean isGuiClosing = false, isClickGUIOpening = false;
 	private ArrayList<ModGUI> modGUIs = new ArrayList<>();
 	private ClickGUI clickGUI = new ClickGUI();
 	private TimeUtil timeUtil = new TimeUtil();
-	private float index1 = 0;
+	private Mod draggingMod;
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		
+		if (this.draggingMod != null)
+		{
+			this.draggingMod.setX(mouseX - this.dragX);
+			this.draggingMod.setY(mouseY - this.dragY);
+			this.draggingMod.setWidth(mouseX - this.dragWidth);
+			this.draggingMod.setHeight(mouseY - this.dragHeight);
+		}
 		
 		if (this.mc.gameSettings.enableVsync || this.timeUtil.hasTimePassed(this.refreshRate))
 		{
@@ -104,6 +113,26 @@ public class DragGUI extends GuiScreen
 			SoundUtil.playClickSound();
 			isClickGUIOpening = true;
 		}
+		
+		for (ModGUI modGUI : this.modGUIs)
+		{
+			if (modGUI.isInsideMod(mouseX, mouseY))
+			{
+				Mod mod = modGUI.getMod();
+				this.draggingMod = mod;
+				this.dragX = mouseX - mod.getX();
+				this.dragY = mouseY - mod.getY();
+				this.dragWidth = mouseX - mod.getWidth();
+				this.dragHeight = mouseY - mod.getHeight();
+			}
+		}
+    }
+	
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state)
+    {
+		super.mouseReleased(mouseX, mouseY, state);
+		this.draggingMod = null;
     }
 	
 	@Override
