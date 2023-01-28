@@ -1,10 +1,13 @@
 package apple26j;
 
 import java.io.*;
+import java.net.URL;
+import java.nio.channels.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.eventbus.*;
@@ -29,7 +32,8 @@ public enum Apple implements MinecraftInterface
 	private EventsManager eventsManager;
 	private SettingsManager settingsManager;
 	private UpdateCheckThread updateCheckThread;
-	public static final double CLIENT_VERSION = 1.92;
+	public static final double CLIENT_VERSION = 1.93;
+	public static volatile boolean songsDownloading = false;
 	
 	public void init()
 	{
@@ -167,30 +171,35 @@ public enum Apple implements MinecraftInterface
 				songs.mkdirs();
 			}
 			
-			for (String song : MusicGUI.getSongsList())
+			new Thread(() ->
 			{
-				File songFile = new File(songs, song + ".wav");
-				
-				if (songFile.exists())
+				try
 				{
-					songFile.delete();
+					songsDownloading = true;
+					
+					for (String song : MusicGUI.getSongsList())
+					{
+						File songFile = new File(songs, song + ".wav");
+						
+						if (songFile.exists())
+						{
+							continue;
+						}
+						
+						song = song.replaceAll(" ", "%20").replaceAll("&", "%26");
+						songFile.createNewFile();
+						URL website = new URL("https://github.com/Appu26j/Apple-Client-Songs/raw/main/" + song + ".wav");
+						FileUtils.copyURLToFile(website, songFile);
+					}
+					
+					songsDownloading = false;
 				}
 				
-				songFile.createNewFile();
-				
-				InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation("songs/" + song + ".wav")).getInputStream();
-				
-				try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(Files.newOutputStream(songFile.toPath())))
-		        {
-		            byte [] bytes = new byte[4096];
-		            int read;
-
-		            while ((read = inputStream.read(bytes)) != -1)
-		            {
-		                bufferedOutputStream.write(bytes, 0, read);
-		            }
-		        }
-			}
+				catch (Exception e)
+				{
+					songsDownloading = false;
+				}
+			}).start();
 		}
 		
 		catch (Exception e)

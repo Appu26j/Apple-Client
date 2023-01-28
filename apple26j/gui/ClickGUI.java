@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import apple26j.Apple;
@@ -21,8 +22,8 @@ public class ClickGUI extends GuiScreen
 	private ArrayList<ClickGUIsModGUI> clickGUIsModGUIs = new ArrayList<>();
 	private Category selectedCategory = Category.ALL;
 	private TimeUtil timeUtil = new TimeUtil();
+	private float index1 = 0, scrollIndex = 0;
 	private boolean isGuiClosing = false;
-	private float index1 = 0;
 	private Mod selectedMod;
 	
 	@Override
@@ -75,7 +76,7 @@ public class ClickGUI extends GuiScreen
 		
 		if (this.selectedMod == null)
 		{
-			float offset = 0;
+			float offset = 10;
 			
 			for (Category category : Category.values())
 			{
@@ -85,7 +86,7 @@ public class ClickGUI extends GuiScreen
 			}
 			
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-			RenderUtil.scissor((this.width / 2) - 208 + (25 - (this.index1 * 25)), (this.height / 2) - 99 + (25 - (this.index1 * 25)), (this.width / 2) + 182 + (25 - (this.index1 * 25)), (this.height / 2) + 150 + (25 - (this.index1 * 25)));
+			RenderUtil.scissor((this.width / 2) - 198 + (25 - (this.index1 * 25)), (this.height / 2) - 99 + (25 - (this.index1 * 25)), (this.width / 2) + 192 + (25 - (this.index1 * 25)), (this.height / 2) + 150 + (25 - (this.index1 * 25)));
 			
 			for (ClickGUIsModGUI clickGUIsModGUI : this.clickGUIsModGUIs)
 			{
@@ -121,6 +122,15 @@ public class ClickGUI extends GuiScreen
 	}
 	
 	@Override
+    public void handleMouseInput() throws IOException
+	{
+		super.handleMouseInput();
+		int i = Integer.compare(Mouse.getEventDWheel(), 0);
+		this.scrollIndex += (i * 25);
+		this.scrollIndex = this.scrollIndex > 0 ? 0 : this.scrollIndex;
+	}
+	
+	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
 		if (keyCode == 1)
@@ -150,7 +160,7 @@ public class ClickGUI extends GuiScreen
 		
 		if (this.selectedMod == null)
 		{
-			float offset = 0;
+			float offset = 10;
 			
 			for (Category category : Category.values())
 			{
@@ -159,14 +169,14 @@ public class ClickGUI extends GuiScreen
 					SoundUtil.playClickSound();
 					this.selectedCategory = category;
 					this.clickGUIsModGUIs.clear();
-					int xOffset = 17;
+					int xOffset = 27;
 					int yOffset = 51;
 					
 					for (Mod mod : Apple.CLIENT.getModsManager().getMods(this.selectedCategory))
 					{
-						if (xOffset == 422)
+						if (xOffset == 432)
 						{
-							xOffset = 17;
+							xOffset = 27;
 							yOffset += 135;
 						}
 						
@@ -251,14 +261,14 @@ public class ClickGUI extends GuiScreen
 	{
 		super.initGui();
 		this.clickGUIsModGUIs.clear();
-		int xOffset = 17;
+		int xOffset = 27;
 		int yOffset = 51;
 		
 		for (Mod mod : Apple.CLIENT.getModsManager().getMods(this.selectedCategory))
 		{
-			if (xOffset == 422)
+			if (xOffset == 432)
 			{
-				xOffset = 17;
+				xOffset = 27;
 				yOffset += 135;
 			}
 			

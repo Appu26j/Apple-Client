@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.io.Files;
 
+import apple26j.Apple;
 import apple26j.fontrenderer.FixedFontRenderer;
 import apple26j.music.MusicPlayer;
 import apple26j.utils.*;
@@ -92,14 +93,14 @@ public class MusicGUI extends GuiScreen
 		GlStateManager.color(1, 1, 1, this.index1);
 		RenderUtil.drawImage(new ResourceLocation("shadow.png"), (this.width / 2) - 221 + (25 - (this.index1 * 25)), (this.height / 2) - 167 + (25 - (this.index1 * 25)), 442, 334);
 		RenderUtil.drawRect(this.x - 200 + (25 - (this.index1 * 25)), this.y - 150 + (25 - (this.index1 * 25)), this.x + 200 + (25 - (this.index1 * 25)), this.y + 150 + (25 - (this.index1 * 25)), new Color(230, 230, 230, (int) (this.index1 * 255)).getRGB());
-		RenderUtil.drawRect(this.x - 180 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 75 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25)), new Color(0, 0, 0, (int) (this.index1 * 16)).getRGB());
-		RenderUtil.drawRect(this.x + 85 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 180 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25)), (this.isInside(mouseX, mouseY, this.x + 85, this.y - 130, this.x + 180, this.y - 110) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
+		RenderUtil.drawRect(this.x - 173 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 65 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25)), new Color(0, 0, 0, (int) (this.index1 * 16)).getRGB());
+		RenderUtil.drawRect(this.x + 72 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 167 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25)), (this.isInside(mouseX, mouseY, this.x + 72 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 167 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25))) ? new Color(0, 0, 0, (int) (this.index1 * 32)) : new Color(0, 0, 0, (int) (this.index1 * 16))).getRGB());
 		RenderUtil.drawCircle(this.x - 190 + (25 - (this.index1 * 25)), this.y - 142 + (25 - (this.index1 * 25)), 4, (this.isInside(mouseX, mouseY, this.x - 200, this.y - 150, this.x - 180, this.y - 134) ? new Color(230, 90, 55, (int) (this.index1 * 255)) : new Color(255, 90, 80, (int) (this.index1 * 255))).getRGB());
-		FixedFontRenderer.drawString("Songs Player", this.x - (FixedFontRenderer.getStringWidth("Songs Player", 8) / 2) + (25 - (this.index1 * 25)), (this.height / 2) - 145 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
-		FixedFontRenderer.drawString("Add Custom Song", this.x + 91 + (25 - (this.index1 * 25)), this.y - 123 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+		FixedFontRenderer.drawString("Songs Player" + (Apple.CLIENT.songsDownloading ? " (Songs are still downloading)" : ""), this.x - (FixedFontRenderer.getStringWidth("Songs Player" + (Apple.CLIENT.songsDownloading ? " (Songs are still downloading)" : ""), 8) / 2) + (25 - (this.index1 * 25)), (this.height / 2) - 145 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
+		FixedFontRenderer.drawString("Add Custom Song", this.x + 78 + (25 - (this.index1 * 25)), this.y - 123 + (25 - (this.index1 * 25)), 8, new Color(75, 75, 75, (int) (this.index1 * 255)).getRGB());
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		RenderUtil.scissor(this.x - 180 + (25 - (this.index1 * 25)), this.y - 100 + (25 - (this.index1 * 25)), this.x + 160 + (25 - (this.index1 * 25)), this.y + 125 + (25 - (this.index1 * 25)));
-		int xOffset = 0;
+		RenderUtil.scissor(this.x - 173 + (25 - (this.index1 * 25)), this.y - 100 + (25 - (this.index1 * 25)), this.x + 167 + (25 - (this.index1 * 25)), this.y + 125 + (25 - (this.index1 * 25)));
+		int xOffset = 7;
 		int yOffset = 0;
 		
 		for (String song : new File("songs").list())
@@ -116,9 +117,9 @@ public class MusicGUI extends GuiScreen
 				}
 			}
 			
-			if (xOffset == 360)
+			if (xOffset == 367)
 			{
-				xOffset = 0;
+				xOffset = 7;
 				yOffset += 140;
 			}
 			
@@ -166,16 +167,16 @@ public class MusicGUI extends GuiScreen
 			this.keyTyped('0', 1);
 		}
 		
-		int xOffset = 0;
+		int xOffset = 7;
 		int yOffset = 0;
 		
 		for (String song : new File("songs").list())
 		{
 			song = song.substring(0, song.indexOf("."));
 			
-			if (xOffset == 360)
+			if (xOffset == 367)
 			{
-				xOffset = 0;
+				xOffset = 7;
 				yOffset += 140;
 			}
 			
@@ -207,7 +208,7 @@ public class MusicGUI extends GuiScreen
 			}
 		}
 		
-		if (this.isInside(mouseX, mouseY, this.x + 85, this.y - 130, this.x + 180, this.y - 110) && mouseButton == 0)
+		if (this.isInside(mouseX, mouseY, this.x + 72 + (25 - (this.index1 * 25)), this.y - 130 + (25 - (this.index1 * 25)), this.x + 167 + (25 - (this.index1 * 25)), this.y - 110 + (25 - (this.index1 * 25))) && mouseButton == 0)
 		{	
 			LookAndFeel oldLookAndFeel = UIManager.getLookAndFeel();
 			JFileChooser jFileChooser = new JFileChooser();
