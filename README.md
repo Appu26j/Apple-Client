@@ -1,2 +1,2 @@
 # Apple Client
-The first good PvP client to be open-source!
+A good PvP client which is open-source!
