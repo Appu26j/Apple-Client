@@ -22,7 +22,7 @@ public class UpdateCheckThread extends Thread implements MinecraftInterface
 			try
 			{
 				// Checks for updates
-				HttpsURLConnection httpsURLConnection = ((HttpsURLConnection) (new URL("https://pastebin.com/raw/G6Vd208t")).openConnection());
+				HttpsURLConnection httpsURLConnection = ((HttpsURLConnection) (new URL("https://pastebin.com/eZYvUZHs")).openConnection());
 				httpsURLConnection.setDoInput(true);
 				httpsURLConnection.setDoOutput(false);
 				httpsURLConnection.connect();
